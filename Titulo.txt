@@ -1,0 +1,2 @@
+Diseño e 
+implementacion de aplicativo web para la gestion de historias clinicas electronicas
