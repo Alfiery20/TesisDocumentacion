@@ -1,1 +1,1 @@
-Diseño e implementacion de aplicativo web para la gestion de historias clinicas electronicas
+Diseño e implementacion de aplicativo web para la gestion de historias clinicas electronicas en la Sanidad PNP de Lambayeque - Chiclayo
