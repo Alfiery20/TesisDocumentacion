@@ -1,1 +1,1 @@
-Diseño e implementacion de aplicativo web para la gestion de historias clinicas electronicas en la Sanidad PNP de Lambayeque - Chiclayo
+Diseño e implementacion de software para la verificacion de no duplicidad en proyectos de investigacion - Caso practico Universidad Nacional Pedro Ruiz Gallo
