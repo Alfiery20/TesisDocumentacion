@@ -1,0 +1,14 @@
+Increase the Speed of Search Index in the Duplicate Text Detection Systems: https://ieeexplore.ieee.org/document/9166107
+Identification of Key Sentences in the Task of Text Duplicate Detection: https://ieeexplore.ieee.org/document/9131465
+(X) A First Look at Duplicate and Near-duplicate Self-admitted Technical Debt Comments: https://ieeexplore.ieee.org/document/9796169
+Near-Duplicate Document Detection Using Semantic-Based Similarity Measure: A Novel Approach: https://www.scopus.com/record/display.uri?eid=2-s2.0-85077111211&origin=resultslist&sort=plf-f&src=s&sid=ab423f6f3d5cdd5899bb53bc5425a17b&sot=a&sdt=cl&cluster=scosubjabbr%2C%22ENGI%22%2Ct%2C%22MATH%22%2Ct&s=TITLE%28%22duplicate+document%22%29&sl=27&sessionSearchId=ab423f6f3d5cdd5899bb53bc5425a17b&relpos=2
+(X) Identifying Duplicate Police Reports: https://ieeexplore.ieee.org/document/9680181
+Similarity Measure Approaches Applied in Text Document Clustering for Information Retrieval: https://ieeexplore.ieee.org/document/9315851
+(X) Document similarity detection based on multi-feature semantic fusion and concept graph: https://ieeexplore.ieee.org/document/9832170
+(X) Detecting plagiarism using Latent Semantic Analysis and Cosine Similarity Approach: https://ieeexplore.ieee.org/document/10837475
+Duplicate short text detection based on Word2vec: https://ieeexplore.ieee.org/document/8342858
+An Efficient Duplicate Detection System for XML Documents: https://ieeexplore.ieee.org/document/5445601
+Detecting Duplicates in Complex XML Data: https://ieeexplore.ieee.org/document/1617477
+
+Plagio: 
+(X) Novel Approach to Detect Plagiarism in the Document: https://ieeexplore.ieee.org/document/10150442
