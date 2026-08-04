@@ -1,0 +1,64 @@
+@startuml
+title Diagrama general de actores y casos de uso de Karify
+
+left to right direction
+skinparam shadowing false
+skinparam packageStyle rectangle
+
+actor "Usuario institucional" as Usuario
+actor Administrador
+actor Tesista
+actor Cotesista
+actor "Docente asesor" as Docente
+
+Usuario <|-- Administrador
+Usuario <|-- Tesista
+Usuario <|-- Cotesista
+Usuario <|-- Docente
+
+rectangle "Sistema Karify" {
+
+    usecase "Iniciar sesión con\ncuenta institucional" as UC_Login
+    usecase "Actualizar perfil" as UC_Perfil
+
+    usecase "Gestionar roles\ny permisos" as UC_Roles
+    usecase "Registrar docentes" as UC_Docentes
+    usecase "Registrar administradores" as UC_Admin
+
+    usecase "Registrar proyecto" as UC_Registrar
+    usecase "Editar proyecto" as UC_Editar
+    usecase "Seleccionar docente asesor" as UC_Seleccionar
+    usecase "Consultar estado\ndel proyecto" as UC_Estado
+
+    usecase "Aceptar o rechazar\nparticipación" as UC_Cotesista
+
+    usecase "Consultar proyectos\nasignados" as UC_Asignados
+    usecase "Revisar proyecto" as UC_Revisar
+    usecase "Aprobar o rechazar\nproyecto" as UC_Decision
+
+    usecase "Enviar notificación" as UC_Notificar
+}
+
+Usuario --> UC_Login
+Usuario --> UC_Perfil
+
+Administrador --> UC_Roles
+Administrador --> UC_Docentes
+Administrador --> UC_Admin
+
+Tesista --> UC_Registrar
+Tesista --> UC_Editar
+Tesista --> UC_Estado
+
+Cotesista --> UC_Cotesista
+
+Docente --> UC_Asignados
+Docente --> UC_Revisar
+Docente --> UC_Decision
+
+UC_Registrar .> UC_Seleccionar : <<include>>
+
+UC_Cotesista .> UC_Notificar : <<include>>
+UC_Decision .> UC_Notificar : <<include>>
+
+@enduml

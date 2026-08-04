@@ -1,0 +1,74 @@
+@startuml
+title Casos de uso del actor Tesista
+
+left to right direction
+skinparam shadowing false
+skinparam packageStyle rectangle
+
+actor Tesista
+
+rectangle "Sistema Karify" {
+
+    package "Autenticación y perfil" {
+        usecase "CP-01\nIniciar sesión" as TES_Login
+        usecase "Cerrar sesión" as TES_Logout
+        usecase "CP-02\nConfigurar perfil" as TES_Perfil
+        usecase "Editar perfil" as TES_EditarPerfil
+    }
+
+    package "Gestión de proyectos" {
+        usecase "CP-03\nRegistrar proyecto" as TES_Registrar
+        usecase "Editar proyecto" as TES_EditarProyecto
+        usecase "Adjuntar documento" as TES_Adjuntar
+        usecase "Seleccionar docente asesor" as TES_Asesor
+        usecase "Registrar cotesista" as TES_Cotesista
+        usecase "Consultar proyectos" as TES_Consultar
+        usecase "Consultar estado" as TES_Estado
+    }
+
+    package "Resultados y constancias" {
+        usecase "Consultar resultado\nde similitud" as TES_Resultado
+        usecase "CP-07\nGenerar constancia" as TES_Generar
+        usecase "Descargar constancia" as TES_Descargar
+    }
+}
+
+Tesista --> TES_Login
+Tesista --> TES_Logout
+Tesista --> TES_Perfil
+Tesista --> TES_EditarPerfil
+
+Tesista --> TES_Registrar
+Tesista --> TES_EditarProyecto
+Tesista --> TES_Consultar
+Tesista --> TES_Estado
+
+Tesista --> TES_Resultado
+Tesista --> TES_Generar
+Tesista --> TES_Descargar
+
+TES_Registrar .> TES_Adjuntar : <<include>>
+TES_Registrar .> TES_Asesor : <<include>>
+TES_Cotesista .> TES_Registrar : <<extend>>
+
+TES_EditarProyecto .> TES_Consultar : <<include>>
+TES_Estado .> TES_Consultar : <<include>>
+
+TES_Generar .> TES_Resultado : <<include>>
+TES_Descargar .> TES_Generar : <<extend>>
+
+TES_Logout .> TES_Login : <<extend>>
+TES_EditarPerfil .> TES_Perfil : <<extend>>
+
+note right of TES_EditarProyecto
+La edición solo se permite
+en los estados habilitados
+por el flujo del proyecto.
+end note
+
+note right of TES_Cotesista
+La incorporación del cotesista
+es opcional.
+end note
+
+@enduml

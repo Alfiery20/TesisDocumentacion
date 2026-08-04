@@ -1,0 +1,54 @@
+@startuml
+title Casos de uso del actor Cotesista
+
+left to right direction
+skinparam shadowing false
+skinparam packageStyle rectangle
+
+actor Cotesista
+
+rectangle "Sistema Karify" {
+
+    package "Autenticación y perfil" {
+        usecase "CP-01\nIniciar sesión" as COT_Login
+        usecase "Cerrar sesión" as COT_Logout
+        usecase "CP-02\nConfigurar perfil" as COT_Perfil
+        usecase "Editar perfil" as COT_EditarPerfil
+    }
+
+    package "Participación en proyectos" {
+        usecase "Consultar solicitudes\nde participación" as COT_Solicitudes
+        usecase "Consultar información\ndel proyecto" as COT_Proyecto
+        usecase "CP-04\nResponder solicitud" as COT_Responder
+        usecase "Aceptar participación" as COT_Aceptar
+        usecase "Rechazar participación" as COT_Rechazar
+        usecase "Consultar estado\ndel proyecto" as COT_Estado
+    }
+}
+
+Cotesista --> COT_Login
+Cotesista --> COT_Logout
+Cotesista --> COT_Perfil
+Cotesista --> COT_EditarPerfil
+
+Cotesista --> COT_Solicitudes
+Cotesista --> COT_Proyecto
+Cotesista --> COT_Responder
+Cotesista --> COT_Estado
+
+COT_Proyecto .> COT_Solicitudes : <<include>>
+COT_Responder .> COT_Proyecto : <<include>>
+
+COT_Aceptar .> COT_Responder : <<extend>>
+COT_Rechazar .> COT_Responder : <<extend>>
+
+COT_Logout .> COT_Login : <<extend>>
+COT_EditarPerfil .> COT_Perfil : <<extend>>
+
+note right of COT_Responder
+El cotesista registra una
+decisión de aceptación
+o rechazo.
+end note
+
+@enduml

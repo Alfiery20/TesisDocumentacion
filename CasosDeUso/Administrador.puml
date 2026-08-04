@@ -1,0 +1,57 @@
+@startuml
+title Casos de uso del actor Administrador
+
+left to right direction
+skinparam shadowing false
+skinparam packageStyle rectangle
+
+actor Administrador
+
+rectangle "Sistema Karify" {
+
+    package "Autenticación y perfil" {
+        usecase "CP-01\nIniciar sesión" as ADM_Login
+        usecase "Cerrar sesión" as ADM_Logout
+        usecase "CP-02\nConfigurar perfil" as ADM_Perfil
+        usecase "Editar perfil" as ADM_EditarPerfil
+    }
+
+    package "Administración de usuarios" {
+        usecase "Gestionar usuarios" as ADM_Usuarios
+        usecase "Registrar docente" as ADM_Docente
+        usecase "Actualizar docente" as ADM_ActualizarDocente
+        usecase "Registrar administrador" as ADM_RegistrarAdmin
+        usecase "Habilitar o deshabilitar\nusuario" as ADM_EstadoUsuario
+    }
+
+    package "Roles y permisos" {
+        usecase "Gestionar roles" as ADM_Roles
+        usecase "Crear rol" as ADM_CrearRol
+        usecase "Editar rol" as ADM_EditarRol
+        usecase "Gestionar permisos" as ADM_Permisos
+        usecase "Asignar permisos a rol" as ADM_AsignarPermisos
+    }
+}
+
+Administrador --> ADM_Login
+Administrador --> ADM_Logout
+Administrador --> ADM_Perfil
+Administrador --> ADM_EditarPerfil
+
+Administrador --> ADM_Usuarios
+Administrador --> ADM_Roles
+Administrador --> ADM_Permisos
+
+ADM_Usuarios .> ADM_Docente : <<include>>
+ADM_Usuarios .> ADM_ActualizarDocente : <<include>>
+ADM_Usuarios .> ADM_RegistrarAdmin : <<include>>
+ADM_Usuarios .> ADM_EstadoUsuario : <<include>>
+
+ADM_Roles .> ADM_CrearRol : <<include>>
+ADM_Roles .> ADM_EditarRol : <<include>>
+ADM_Permisos .> ADM_AsignarPermisos : <<include>>
+
+ADM_Logout .> ADM_Login : <<extend>>
+ADM_EditarPerfil .> ADM_Perfil : <<extend>>
+
+@enduml

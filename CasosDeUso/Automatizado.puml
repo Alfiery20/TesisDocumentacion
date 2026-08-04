@@ -1,0 +1,49 @@
+@startuml
+title CP-06 · Procesamiento automatizado de similitud
+
+skinparam shadowing false
+
+start
+
+:Ejecutar ciclo periódico\ndel servicio Worker;
+
+:Consultar proyectos aprobados\npendientes de procesamiento;
+
+if (¿Existen proyectos pendientes?) then (Sí)
+
+    :Obtener título y resumen\ndel proyecto;
+
+    :Consultar proyectos disponibles\nen la API simulada;
+
+    if (¿La consulta fue exitosa?) then (Sí)
+
+        :Normalizar y preparar textos;
+
+        :Vectorizar documentos\nmediante TF-IDF;
+
+        :Calcular similitud\ndel coseno;
+
+        :Identificar el proyecto\ncon mayor coincidencia;
+
+        :Registrar porcentaje\nde similitud;
+
+        if (¿Resultado cumple\nla condición configurada?) then (Sí)
+            :Actualizar estado a\nresultado favorable;
+            :Habilitar generación\nde constancia;
+        else (No)
+            :Actualizar estado a\nobservado o rechazado;
+        endif
+
+        :Registrar resultado\ndel procesamiento;
+
+    else (No)
+        :Registrar error de comunicación;
+        :Mantener proyecto pendiente\npara un nuevo intento;
+    endif
+
+else (No)
+    :Finalizar ciclo sin procesamiento;
+endif
+
+stop
+@enduml
