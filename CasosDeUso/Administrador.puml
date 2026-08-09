@@ -4,54 +4,65 @@ title Casos de uso del actor Administrador
 left to right direction
 skinparam shadowing false
 skinparam packageStyle rectangle
+skinparam linetype ortho
+skinparam usecase {
+  BackgroundColor White
+  BorderColor Black
+}
 
 actor Administrador
 
 rectangle "Sistema Karify" {
 
-    package "Autenticación y perfil" {
-        usecase "CP-01\nIniciar sesión" as ADM_Login
-        usecase "Cerrar sesión" as ADM_Logout
-        usecase "CP-02\nConfigurar perfil" as ADM_Perfil
-        usecase "Editar perfil" as ADM_EditarPerfil
-    }
+  package "Autenticación y perfil" {
+    usecase "CU-001\nIniciar sesión con\ncuenta institucional" as ADM01
+    usecase "CU-002\nConfigurar perfil" as ADM02
+  }
 
-    package "Administración de usuarios" {
-        usecase "Gestionar usuarios" as ADM_Usuarios
-        usecase "Registrar docente" as ADM_Docente
-        usecase "Actualizar docente" as ADM_ActualizarDocente
-        usecase "Registrar administrador" as ADM_RegistrarAdmin
-        usecase "Habilitar o deshabilitar\nusuario" as ADM_EstadoUsuario
-    }
+  package "Gestión de profesores" {
+    usecase "CU-010\nCrear profesor" as ADM10
+    usecase "CU-011\nEditar profesor" as ADM11
+    usecase "CU-012\nBuscar profesor" as ADM12
+    usecase "CU-018\nDeshabilitar profesor" as ADM18
+  }
 
-    package "Roles y permisos" {
-        usecase "Gestionar roles" as ADM_Roles
-        usecase "Crear rol" as ADM_CrearRol
-        usecase "Editar rol" as ADM_EditarRol
-        usecase "Gestionar permisos" as ADM_Permisos
-        usecase "Asignar permisos a rol" as ADM_AsignarPermisos
-    }
+  package "Gestión de permisos" {
+    usecase "CU-013\nCrear rol" as ADM13
+    usecase "CU-014\nEditar rol" as ADM14
+    usecase "CU-015\nConsultar roles" as ADM15
+    usecase "CU-016\nDeshabilitar rol" as ADM16
+  }
 }
 
-Administrador --> ADM_Login
-Administrador --> ADM_Logout
-Administrador --> ADM_Perfil
-Administrador --> ADM_EditarPerfil
+Administrador --> ADM01
+Administrador --> ADM02
+Administrador --> ADM10
+Administrador --> ADM11
+Administrador --> ADM12
+Administrador --> ADM18
+Administrador --> ADM13
+Administrador --> ADM14
+Administrador --> ADM15
+Administrador --> ADM16
 
-Administrador --> ADM_Usuarios
-Administrador --> ADM_Roles
-Administrador --> ADM_Permisos
+ADM02 .> ADM01 : <<extend>>\n[perfil incompleto]
 
-ADM_Usuarios .> ADM_Docente : <<include>>
-ADM_Usuarios .> ADM_ActualizarDocente : <<include>>
-ADM_Usuarios .> ADM_RegistrarAdmin : <<include>>
-ADM_Usuarios .> ADM_EstadoUsuario : <<include>>
+note right of ADM10
+El profesor debe registrarse previamente
+para que Karify pueda reconocer su cuenta
+como docente durante CU-001.
+end note
 
-ADM_Roles .> ADM_CrearRol : <<include>>
-ADM_Roles .> ADM_EditarRol : <<include>>
-ADM_Permisos .> ADM_AsignarPermisos : <<include>>
+note right of ADM16
+Eliminación lógica del rol.
+Mientras permanezca deshabilitado,
+sus usuarios no pueden iniciar sesión.
+end note
 
-ADM_Logout .> ADM_Login : <<extend>>
-ADM_EditarPerfil .> ADM_Perfil : <<extend>>
+note right of ADM18
+Eliminación lógica del profesor.
+El registro se conserva, pero el docente
+no puede iniciar sesión.
+end note
 
 @enduml

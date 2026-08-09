@@ -1,0 +1,120 @@
+@startuml
+title Diagrama general de actores y casos de uso de Karify
+
+left to right direction
+skinparam shadowing false
+skinparam packageStyle rectangle
+skinparam linetype ortho
+skinparam usecase {
+  BackgroundColor White
+  BorderColor Black
+}
+
+actor "Usuario institucional" as Usuario
+actor Administrador
+actor Tesista
+actor Cotesista
+actor "Docente asesor" as Docente
+
+Usuario <|-- Administrador
+Usuario <|-- Tesista
+Usuario <|-- Cotesista
+Usuario <|-- Docente
+
+rectangle "Sistema Karify" {
+
+  package "Autenticación y perfil" {
+    usecase "CU-001\nIniciar sesión con\ncuenta institucional" as UC01
+    usecase "CU-002\nConfigurar perfil" as UC02
+  }
+
+  package "Gestión de proyectos" {
+    usecase "CU-003\nRegistrar proyecto" as UC03
+    usecase "CU-004\nEditar proyecto" as UC04
+    usecase "CU-005\nConsultar proyectos\nregistrados" as UC05
+    usecase "CU-006\nResponder solicitud\nde participación" as UC06
+    usecase "CU-017\nCancelar proyecto" as UC17
+  }
+
+  package "Revisión de proyectos" {
+    usecase "CU-007\nRevisar proyecto\nde investigación" as UC07
+  }
+
+  package "Resultados y constancias" {
+    usecase "CU-008\nConsultar resultado\nde similitud" as UC08
+    usecase "CU-009\nConsultar y descargar\nconstancia" as UC09
+  }
+
+  package "Gestión de profesores" {
+    usecase "CU-010\nCrear profesor" as UC10
+    usecase "CU-011\nEditar profesor" as UC11
+    usecase "CU-012\nBuscar profesor" as UC12
+    usecase "CU-018\nDeshabilitar profesor" as UC18
+  }
+
+  package "Gestión de permisos" {
+    usecase "CU-013\nCrear rol" as UC13
+    usecase "CU-014\nEditar rol" as UC14
+    usecase "CU-015\nConsultar roles" as UC15
+    usecase "CU-016\nDeshabilitar rol" as UC16
+  }
+}
+
+Usuario --> UC01
+Usuario --> UC02
+
+Administrador --> UC10
+Administrador --> UC11
+Administrador --> UC12
+Administrador --> UC18
+Administrador --> UC13
+Administrador --> UC14
+Administrador --> UC15
+Administrador --> UC16
+
+Tesista --> UC03
+Tesista --> UC04
+Tesista --> UC05
+Tesista --> UC08
+Tesista --> UC09
+Tesista --> UC17
+
+Cotesista --> UC05
+Cotesista --> UC06
+Cotesista --> UC08
+Cotesista --> UC09
+
+Docente --> UC07
+
+UC02 .> UC01 : <<extend>>\n[perfil incompleto]
+UC04 .> UC05 : <<extend>>\n[estado editable]
+UC06 .> UC05 : <<extend>>\n[solicitud pendiente]
+UC08 .> UC05 : <<extend>>\n[procesamiento finalizado]
+UC09 .> UC05 : <<extend>>\n[constancia disponible]
+UC17 .> UC05 : <<extend>>\n[antes de revisión docente]
+
+note right of UC07
+La aprobación permite continuar al
+procesamiento automatizado.
+El rechazo impide la continuidad
+del proyecto.
+end note
+
+note right of UC10
+El registro previo permite que CU-001
+reconozca la cuenta institucional
+como correspondiente a un docente.
+end note
+
+note right of UC16
+La deshabilitación es lógica y restringe
+el inicio de sesión de los usuarios
+asociados al rol.
+end note
+
+note right of UC18
+La deshabilitación es lógica y restringe
+el inicio de sesión del docente.
+end note
+
+@enduml

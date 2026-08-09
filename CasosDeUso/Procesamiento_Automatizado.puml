@@ -1,0 +1,55 @@
+@startuml
+title Procesamiento automatizado de similitud - Servicio Worker
+
+skinparam shadowing false
+
+start
+
+:Ejecutar ciclo periódico\ndel servicio Worker;
+
+:Consultar proyectos aprobados\npendientes de procesamiento;
+
+if (¿Existen proyectos pendientes?) then (No)
+    :Finalizar ciclo sin procesamiento;
+    stop
+else (Sí)
+
+    while (¿Queda un proyecto\npor procesar?) is (Sí)
+
+        :Obtener título y resumen\ndel proyecto;
+
+        :Consultar proyectos disponibles\nen la API simulada;
+
+        if (¿La consulta fue exitosa?) then (Sí)
+
+            :Normalizar y preparar textos;
+
+            :Vectorizar títulos y resúmenes\nmediante TF-IDF;
+
+            :Calcular similitud\ndel coseno;
+
+            :Identificar el proyecto\ncon mayor similitud textual;
+
+            :Almacenar porcentaje de similitud\ny referencia del proyecto similar;
+
+            if (¿El resultado cumple\nla condición configurada?) then (Sí)
+                :Actualizar estado del proyecto\nsegún resultado favorable;
+                :Generar constancia\nde verificación;
+            else (No)
+                :Actualizar estado del proyecto\nsegún la regla configurada;
+            endif
+
+            :Registrar resultado y trazabilidad\ndel procesamiento;
+
+        else (No)
+            :Registrar error de comunicación;
+            :Mantener el proyecto pendiente\npara un nuevo intento;
+        endif
+
+    endwhile (No)
+
+    :Finalizar ciclo periódico;
+    stop
+endif
+
+@enduml

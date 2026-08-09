@@ -4,51 +4,49 @@ title Casos de uso del actor Cotesista
 left to right direction
 skinparam shadowing false
 skinparam packageStyle rectangle
+skinparam linetype ortho
+skinparam usecase {
+  BackgroundColor White
+  BorderColor Black
+}
 
 actor Cotesista
 
 rectangle "Sistema Karify" {
 
-    package "Autenticación y perfil" {
-        usecase "CP-01\nIniciar sesión" as COT_Login
-        usecase "Cerrar sesión" as COT_Logout
-        usecase "CP-02\nConfigurar perfil" as COT_Perfil
-        usecase "Editar perfil" as COT_EditarPerfil
-    }
+  package "Autenticación y perfil" {
+    usecase "CU-001\nIniciar sesión con\ncuenta institucional" as COT01
+    usecase "CU-002\nConfigurar perfil" as COT02
+  }
 
-    package "Participación en proyectos" {
-        usecase "Consultar solicitudes\nde participación" as COT_Solicitudes
-        usecase "Consultar información\ndel proyecto" as COT_Proyecto
-        usecase "CP-04\nResponder solicitud" as COT_Responder
-        usecase "Aceptar participación" as COT_Aceptar
-        usecase "Rechazar participación" as COT_Rechazar
-        usecase "Consultar estado\ndel proyecto" as COT_Estado
-    }
+  package "Participación y gestión de proyectos" {
+    usecase "CU-005\nConsultar proyectos\nregistrados" as COT05
+    usecase "CU-006\nResponder solicitud\nde participación" as COT06
+  }
+
+  package "Resultados y constancias" {
+    usecase "CU-008\nConsultar resultado\nde similitud" as COT08
+    usecase "CU-009\nConsultar y descargar\nconstancia" as COT09
+  }
 }
 
-Cotesista --> COT_Login
-Cotesista --> COT_Logout
-Cotesista --> COT_Perfil
-Cotesista --> COT_EditarPerfil
+Cotesista --> COT01
+Cotesista --> COT02
+Cotesista --> COT05
+Cotesista --> COT06
+Cotesista --> COT08
+Cotesista --> COT09
 
-Cotesista --> COT_Solicitudes
-Cotesista --> COT_Proyecto
-Cotesista --> COT_Responder
-Cotesista --> COT_Estado
+COT02 .> COT01 : <<extend>>\n[perfil incompleto]
+COT06 .> COT05 : <<extend>>\n[solicitud pendiente]
+COT08 .> COT05 : <<extend>>\n[procesamiento finalizado]
+COT09 .> COT05 : <<extend>>\n[constancia disponible]
 
-COT_Proyecto .> COT_Solicitudes : <<include>>
-COT_Responder .> COT_Proyecto : <<include>>
-
-COT_Aceptar .> COT_Responder : <<extend>>
-COT_Rechazar .> COT_Responder : <<extend>>
-
-COT_Logout .> COT_Login : <<extend>>
-COT_EditarPerfil .> COT_Perfil : <<extend>>
-
-note right of COT_Responder
-El cotesista registra una
-decisión de aceptación
-o rechazo.
+note right of COT06
+El cotesista registra una única decisión:
+aceptar o rechazar la participación.
+La aceptación permite que el flujo
+continúe hacia el docente asesor.
 end note
 
 @enduml

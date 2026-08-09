@@ -4,58 +4,47 @@ title Casos de uso del actor Docente asesor
 left to right direction
 skinparam shadowing false
 skinparam packageStyle rectangle
+skinparam linetype ortho
+skinparam usecase {
+  BackgroundColor White
+  BorderColor Black
+}
 
 actor "Docente asesor" as Docente
 
 rectangle "Sistema Karify" {
 
-    package "Autenticación y perfil" {
-        usecase "CP-01\nIniciar sesión" as DOC_Login
-        usecase "Cerrar sesión" as DOC_Logout
-        usecase "CP-02\nConfigurar perfil" as DOC_Perfil
-        usecase "Editar perfil" as DOC_EditarPerfil
-    }
+  package "Autenticación y perfil" {
+    usecase "CU-001\nIniciar sesión con\ncuenta institucional" as DOC01
+    usecase "CU-002\nConfigurar perfil" as DOC02
+  }
 
-    package "Revisión de proyectos" {
-        usecase "Consultar proyectos\nasignados" as DOC_Asignados
-        usecase "Consultar detalle\ndel proyecto" as DOC_Detalle
-        usecase "Descargar documento" as DOC_Descargar
-        usecase "CP-05\nRevisar proyecto" as DOC_Revisar
-        usecase "Registrar decisión" as DOC_Decision
-        usecase "Aprobar proyecto\npara análisis" as DOC_Aprobar
-        usecase "Rechazar proyecto" as DOC_Rechazar
-    }
-
-    package "Resultados" {
-        usecase "Consultar resultado\nde similitud" as DOC_Resultado
-    }
+  package "Revisión de proyectos" {
+    usecase "CU-007\nRevisar proyecto\nde investigación" as DOC07
+  }
 }
 
-Docente --> DOC_Login
-Docente --> DOC_Logout
-Docente --> DOC_Perfil
-Docente --> DOC_EditarPerfil
+Docente --> DOC01
+Docente --> DOC02
+Docente --> DOC07
 
-Docente --> DOC_Asignados
-Docente --> DOC_Revisar
-Docente --> DOC_Decision
-Docente --> DOC_Resultado
+DOC02 .> DOC01 : <<extend>>\n[perfil incompleto]
 
-DOC_Detalle .> DOC_Asignados : <<include>>
-DOC_Revisar .> DOC_Detalle : <<include>>
-DOC_Descargar .> DOC_Detalle : <<extend>>
+note right of DOC01
+La cuenta del docente debe haber sido
+registrada previamente por el administrador
+mediante CU-010 y encontrarse habilitada.
+end note
 
-DOC_Decision .> DOC_Revisar : <<include>>
-DOC_Aprobar .> DOC_Decision : <<extend>>
-DOC_Rechazar .> DOC_Decision : <<extend>>
+note right of DOC07
+CU-007 consolida:
+- consulta del proyecto asignado;
+- revisión de información y documento;
+- decisión de aprobar o rechazar.
 
-DOC_Logout .> DOC_Login : <<extend>>
-DOC_EditarPerfil .> DOC_Perfil : <<extend>>
-
-note right of DOC_Aprobar
-La aprobación habilita
-el proyecto para el análisis
-automatizado de similitud.
+Si aprueba, el proyecto queda habilitado
+para el procesamiento automatizado.
+Si rechaza, no continúa hacia dicha etapa.
 end note
 
 @enduml

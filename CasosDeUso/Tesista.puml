@@ -4,71 +4,67 @@ title Casos de uso del actor Tesista
 left to right direction
 skinparam shadowing false
 skinparam packageStyle rectangle
+skinparam linetype ortho
+skinparam usecase {
+  BackgroundColor White
+  BorderColor Black
+}
 
 actor Tesista
 
 rectangle "Sistema Karify" {
 
-    package "Autenticación y perfil" {
-        usecase "CP-01\nIniciar sesión" as TES_Login
-        usecase "Cerrar sesión" as TES_Logout
-        usecase "CP-02\nConfigurar perfil" as TES_Perfil
-        usecase "Editar perfil" as TES_EditarPerfil
-    }
+  package "Autenticación y perfil" {
+    usecase "CU-001\nIniciar sesión con\ncuenta institucional" as TES01
+    usecase "CU-002\nConfigurar perfil" as TES02
+  }
 
-    package "Gestión de proyectos" {
-        usecase "CP-03\nRegistrar proyecto" as TES_Registrar
-        usecase "Editar proyecto" as TES_EditarProyecto
-        usecase "Adjuntar documento" as TES_Adjuntar
-        usecase "Seleccionar docente asesor" as TES_Asesor
-        usecase "Registrar cotesista" as TES_Cotesista
-        usecase "Consultar proyectos" as TES_Consultar
-        usecase "Consultar estado" as TES_Estado
-    }
+  package "Gestión de proyectos" {
+    usecase "CU-003\nRegistrar proyecto" as TES03
+    usecase "CU-004\nEditar proyecto" as TES04
+    usecase "CU-005\nConsultar proyectos\nregistrados" as TES05
+    usecase "CU-017\nCancelar proyecto" as TES17
+  }
 
-    package "Resultados y constancias" {
-        usecase "Consultar resultado\nde similitud" as TES_Resultado
-        usecase "CP-07\nGenerar constancia" as TES_Generar
-        usecase "Descargar constancia" as TES_Descargar
-    }
+  package "Resultados y constancias" {
+    usecase "CU-008\nConsultar resultado\nde similitud" as TES08
+    usecase "CU-009\nConsultar y descargar\nconstancia" as TES09
+  }
 }
 
-Tesista --> TES_Login
-Tesista --> TES_Logout
-Tesista --> TES_Perfil
-Tesista --> TES_EditarPerfil
+Tesista --> TES01
+Tesista --> TES02
+Tesista --> TES03
+Tesista --> TES04
+Tesista --> TES05
+Tesista --> TES17
+Tesista --> TES08
+Tesista --> TES09
 
-Tesista --> TES_Registrar
-Tesista --> TES_EditarProyecto
-Tesista --> TES_Consultar
-Tesista --> TES_Estado
+TES02 .> TES01 : <<extend>>\n[perfil incompleto]
+TES04 .> TES05 : <<extend>>\n[estado editable]
+TES17 .> TES05 : <<extend>>\n[antes de revisión docente]
+TES08 .> TES05 : <<extend>>\n[procesamiento finalizado]
+TES09 .> TES05 : <<extend>>\n[constancia disponible]
 
-Tesista --> TES_Resultado
-Tesista --> TES_Generar
-Tesista --> TES_Descargar
-
-TES_Registrar .> TES_Adjuntar : <<include>>
-TES_Registrar .> TES_Asesor : <<include>>
-TES_Cotesista .> TES_Registrar : <<extend>>
-
-TES_EditarProyecto .> TES_Consultar : <<include>>
-TES_Estado .> TES_Consultar : <<include>>
-
-TES_Generar .> TES_Resultado : <<include>>
-TES_Descargar .> TES_Generar : <<extend>>
-
-TES_Logout .> TES_Login : <<extend>>
-TES_EditarPerfil .> TES_Perfil : <<extend>>
-
-note right of TES_EditarProyecto
-La edición solo se permite
-en los estados habilitados
-por el flujo del proyecto.
+note right of TES03
+El registro incluye como parte del mismo objetivo:
+- documento obligatorio;
+- selección del docente asesor;
+- selección de cotesista, cuando corresponda.
 end note
 
-note right of TES_Cotesista
-La incorporación del cotesista
-es opcional.
+note right of TES17
+La cancelación solo está disponible
+antes de que el proyecto llegue
+a la bandeja del docente asesor.
+end note
+
+note right of TES08
+El porcentaje de similitud es un apoyo
+para la revisión académica.
+No determina por sí solo plagio,
+duplicidad u originalidad.
 end note
 
 @enduml
